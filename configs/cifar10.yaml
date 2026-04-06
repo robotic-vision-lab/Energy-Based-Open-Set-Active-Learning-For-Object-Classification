@@ -1,0 +1,47 @@
+dataset:
+  name: cifar10
+  root: E:/Datasets/CIFAR10
+  download: true
+  mismatch_ratio: 0.2
+  initial_label_ratio: 0.01
+
+model:
+  backbone: resnet18
+  in_channels: 3
+  dropout: 0.0
+
+active_learning:
+  num_cycles: 10
+  query_budget: 1500
+  query_strategy: eb_osal
+
+training:
+  epochs: 200
+
+optimizer:
+  name: sgd
+  lr: 0.01
+  momentum: 0.9
+  weight_decay: 0.0005
+
+scheduler:
+  name: cosine
+  min_lr: 0.000001
+
+batch_size:
+  train: 128
+  query: 128
+  test: 256
+
+method:
+  ekus:
+    energy_margin_known: -23.0
+    energy_margin_unknown: -5.0
+    contrastive_weight: 0.2
+    negative_learning_weight: 0.2
+    pseudo_unknown_ratio: 0.05
+    threshold: -23.0
+  ess:
+    energy_margin_known: -20.0
+    energy_reg_weight: 0.1
+    score_weight: 0.1

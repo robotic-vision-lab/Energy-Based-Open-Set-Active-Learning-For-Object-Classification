@@ -1,0 +1,48 @@
+dataset:
+  name: modelnet40
+  root: ./data/modelnet40_ply_hdf5_2048
+  mismatch_ratio: 0.2
+  initial_label_ratio: 0.1
+  num_points: 1024
+  augment: true
+
+model:
+  backbone: pointnet
+  in_channels: 3
+  dropout: 0.3
+  feature_transform: true
+
+active_learning:
+  num_cycles: 10
+  query_budget: 300
+  query_strategy: eb_osal
+
+training:
+  epochs: 200
+
+optimizer:
+  name: adam
+  lr: 0.001
+  weight_decay: 0.0001
+
+scheduler:
+  name: cosine
+  min_lr: 0.000001
+
+batch_size:
+  train: 32
+  query: 32
+  test: 64
+
+method:
+  ekus:
+    energy_margin_known: -10.0
+    energy_margin_unknown: -2.0
+    contrastive_weight: 0.2
+    negative_learning_weight: 0.2
+    pseudo_unknown_ratio: 0.05
+    threshold: -10.0
+  ess:
+    energy_margin_known: -8.0
+    energy_reg_weight: 0.1
+    score_weight: 0.1
